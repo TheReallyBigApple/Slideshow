@@ -1,0 +1,209 @@
+<HTML>
+<HEAD>
+<TITLE>Slideshow : China 2024</TITLE>
+
+
+<STYLE TYPE="text/css">
+
+table, th, td {
+  border: 1px solid black;
+}
+
+
+
+p.indent {
+            text-indent: 40px;
+}
+		
+
+<BODY LEFTMARGIN="0" TOPMARGIN="0" MARGINWIDTH="0" MARGINHEIGHT="0" BGCOLOR="#EED9BC"  link="#E6E8FA" alink="#FF6EC7" vlink="#E6E8FA" text="E6E8FA">
+
+body {
+	background-color:
+
+}
+
+A:link {text-decoration : none;}
+A:visited {text-decoration : none;}
+A:active {text-decoration : none;}
+A:hover {color : FF6EC7; font-weight: bold}
+
+.topnav {
+  overflow: hidden;
+  height: 30px;
+  background-color: #333;
+}
+
+.row {
+	width: 100%;
+}
+
+
+.column.left {
+  float: left;
+  padding: 10px;
+  width: 60%;             <!--   dont want to hard code pixels    width: 1200px;   -->
+  background-color: white;
+  margin-right: 10px;
+}
+
+
+.column.right {
+  float: right;  
+  width: 30%;           <!--   dont want to hard code pixels    width: 620px;   -->
+  height: 90%;           <!--   dont want to hard code pixels    height: 900px   -->
+  border-style:ridge;
+}
+
+</STYLE>
+
+
+
+
+
+
+<script language="JavaScript">
+
+
+document.onkeydown = checkKey;
+
+
+function checkKey(e) {
+    e = e || window.event;
+
+    if (e.keyCode == '37') {
+       previous()
+    }
+    else if (e.keyCode == '39') {
+      next()
+    }
+}
+
+
+
+arr_img = new Array()
+arr_cap = new Array()
+arr_when_where = new Array()
+
+
+var num=0
+
+{% for photo in allphotos %}
+arr_when_where[num]="{{ photo.when_where }}"
+arr_img[num]="{{ photo.image.url }}"
+arr_cap[num]="{{ photo.caption }}"
+num=num+1
+{% endfor %}
+
+num_pictures=num
+num=0
+
+
+function next()
+  {
+ num=num+1
+ if (num==num_pictures)
+    {num=0}
+
+ console.log("debug num : ", num)
+  console.log("debug arr_when_where[num] : ", arr_when_where[num])
+  
+  
+ document.mypic.src=arr_img[num]
+ document.getElementById("lbl_caption").innerHTML = arr_cap[num] 
+ document.getElementById("lbl_when_where").innerHTML = arr_when_where[num] 
+}
+
+function previous()
+  {
+ if (num==0)
+    {num=num_pictures}
+ num=num-1
+ document.mypic.src=arr_img[num]
+
+ console.log("debug num : ", num)
+  console.log("debug arr_when_where[num] : ", arr_when_where[num])
+  
+  
+ document.getElementById("lbl_caption").innerHTML = arr_cap[num] 
+ document.getElementById("lbl_when_where").innerHTML = arr_when_where[num] 
+
+   }
+
+   
+</script>
+
+
+
+
+
+</HEAD>
+
+
+
+  
+
+
+ <div class="topnav">
+						<!--   THIS IS THE PREV NEXT line -->
+ 
+
+		 <center> 
+			<a href="javascript:previous(num)">&nbsp;&nbsp;&lt;&lt;<FONT FACE="ShelleyVolante BT" SIZE="4" color="#FDF5E6" title="(up arrow)"> Prev City</FONT></a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:previous(num)">&nbsp;&nbsp;&lt;&lt;<FONT FACE="ShelleyVolante BT" SIZE="4" color="#FDF5E6" title="(left arrow)"> Prev Picture</FONT></a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:next(num)">&nbsp;&nbsp;<FONT FACE="ShelleyVolante BT" SIZE="4" color="#FDF5E6" title="(right arrow)">Next Picture</FONT>&gt;&gt;&nbsp;&nbsp;</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:next(num)">&nbsp;&nbsp;<FONT FACE="ShelleyVolante BT" SIZE="4" color="#FDF5E6" title="(down arrow)">Next City</FONT>&gt;&gt;&nbsp;&nbsp;</a>
+			<div title="whtats this ??"></div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			
+		</center>
+		
+</div>
+
+<br>       <!--   check out the padding parameters -->
+
+<div class="row">
+ <div class="column left">
+
+						<!--   THIS IS THE PICTURE -->
+
+  <TR>
+   <TD>
+    <center>
+             
+            <img src="{{ allphotos.0.image.url }}"  NAME="mypic" >
+        
+     </center>
+   </TD>
+  </TR>
+
+</div>
+
+						<!--   THIS IS THE WHEN_WHERE and the CAPTION -->
+
+
+
+ <div class="column right">
+
+<td> 	<FONT COLOR="purple" SIZE="4"><p id="lbl_when_where"><b>{{ allphotos.0.when_where }}</b></p></font>  </td>
+
+	
+<p class="indent" id="lbl_caption">{{ allphotos.0.caption }}</p>
+
+
+
+</div>
+</div>
+
+
+
+<br> &nbsp </br>
+<br> &nbsp </br>
+
+
+
+</BODY>
+</HTML>
